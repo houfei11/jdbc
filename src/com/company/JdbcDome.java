@@ -31,7 +31,7 @@ public class JdbcDome {
     }
 
     public void insert() {
-        String sql = "insert into user (UserName,PassWord,UserAge,UserSex) values('丙','123456', 20, 0)";
+        String sql = "insert into personal (stuId,stuName,stuAge,school,stuTime) values('1','houfei', 20, '交通大学','2019-03-04')";
         Connection connection = getConnection();
         try {
             //获取数据库操作类
@@ -50,7 +50,7 @@ public class JdbcDome {
     }
 
     public void delete() {
-        String sql = "delete from user where UserId in (2,3,4)";
+        String sql = "delete from personal where stuId in (1)";
         Connection connection = getConnection();
         try {
             Statement statement = connection.createStatement();
@@ -67,7 +67,7 @@ public class JdbcDome {
     }
 
     public void update() {
-        String sql = "update user set UserName = '乙' where UserId = 5";
+        String sql = "update personal set stuName = '乙' where stuId = 4";
         Connection connection = getConnection();
         try {
             Statement statement = connection.createStatement();
@@ -85,20 +85,23 @@ public class JdbcDome {
 
     public void select() {
         //带参数的  SQL 语句, 要设置的值用 ? 占位
-        String sql = "select * from user where UserId = ?";
+//        String sql = "select * from personal where stuId = ?";
+        String sql = "select * from personal";
         Connection connection = getConnection();
         try {
             //传递 SQL 语句
             PreparedStatement statement = connection.prepareStatement(sql);
             //设置 SQL 语句中占位符的值
-            statement.setInt(1, 1);
+//            statement.setInt(1, );
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                System.out.println("UserName = " + resultSet.getString("UserName"));
-                System.out.println("PassWord = " + resultSet.getString("PassWord"));
-                System.out.println("UserAge = " + resultSet.getInt("UserAge"));
-                String userSex = resultSet.getInt("UserSex") == 1 ? "男" : "女";
-                System.out.println("UserSex = " + userSex);
+                System.out.println("stuId = " + resultSet.getString("stuId"));
+                System.out.println("stuName = " + resultSet.getString("stuName"));
+                System.out.println("stuAge = " + resultSet.getInt("stuAge"));
+                System.out.println("school = " + resultSet.getString("school"));
+                System.out.println("stuTime = " + resultSet.getString("stuTime"));
+                String userSex = resultSet.getInt("stuAge") == 1 ? "男" : "女";
+                System.out.println("stuAge = " + userSex);
             }
             resultSet.close();
             statement.close();
@@ -113,6 +116,9 @@ class text{
     public static void main(String[] args) {
         JdbcDome dome = new JdbcDome();
         dome.select();
-        System.out.println();
+        dome.update();
+        dome.insert();
+        dome.delete();
+        System.out.println("123");
     }
 }
